@@ -1,0 +1,15 @@
+#pagination {
+    line-height: 150%;
+  }
+#pagination span {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.pagination_active {
+    color: red;
+}
+
+.main{
+    text-align: center;
+}
