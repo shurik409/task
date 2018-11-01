@@ -1,49 +1,32 @@
-
-
 class Pagination{
-    private onPage: number;
     private pageCount: number;
-    private path : string;
+    
     private json : any;
+    private pageOn : HTMLElement;
 
-    constructor(path : string, count : number){
-        this.path = path;
-        this.onPage = count;
+    constructor( private path : string, private onPage : number){
     }
 
-    public start() : void{
-        this.json = this.setJson(this.path);
-        console.log(JSON.stringify(this.json));
+    public async start() : Promise<any>{
+        this.json = await this.setJson(this.path);
         this.setPageCount(this.json);
         this.pagesList("pagination", this.pageCount);
 
         for(let p of this.json){
-            console.log(p);
-            console.log(this.json.indexOf(p));
             if(this.json.indexOf(p) < this.onPage){
                 this.newDiv("person", p, "pers");
-                console.log(p);
             }
         }
 
-        let main_page : HTMLElement = document.getElementById("page1");
-        main_page.classList.add("paginator_active");  
+        this.pageOn = document.getElementById("page1");
+        this.pageOn.classList.add("pagination_active");
     }
 
 
-    private async setJson(path : string) : Promise<any> {
-        let data : any = await (await (fetch('src/persons.json', {
-            method: 'GET',
-            mode: 'no-cors',
-            headers: {
-              "Content-Type": "application/json"
-            }
-          })
-        .then( resp => resp.json() )
-        ));
-        console.log(JSON.stringify(data));
-        this.json = await data;
-        console.log(JSON.stringify(this.json));
+    private setJson(path : string) : Promise<any> {
+        let data : any = fetch(path)
+        .then(resp => resp.json() )
+        .catch(error => console.log(`Error: ${error}`))
         return data;
     }
 
@@ -58,34 +41,22 @@ class Pagination{
         
         let div : HTMLDivElement = document.createElement("div");
         div.className = className;
-        div.innerHTML = person.name + " " + person.surname;
+        div.innerHTML = person.name + " " + person.surname; 
         document.getElementById(parrentClass).appendChild(div);
     }
 
     private pagesList(pagesClass : string, count : number) : void{
         let page : string = ""; 
         for(let i = 0; i < count; i++){
-            page += "<span data-page=" + i * this.onPage + "  id=\"page" + (i + 1) + "\">" + (i + 1) + "</span>";
+            page += `<span data-page = ${i * this.onPage} 
+            id=\"page${(i + 1)}\"> ${(i + 1)} </span>`;
     
         }
         document.getElementById(pagesClass).innerHTML = page;
     }
 
-    /*nextPage(event : any, personClass : string){
-        fetch(this.path, {
-            method: 'GET',
-            mode: 'no-cors',
-            headers: {
-              "Content-Type": "application/json"
-            }
-          })
-        .then( resp => resp.json() )
-        .then( json => {
-            this.objectOut(event, personClass, json)
-        });
-    }*/
 
-    public objectOut(event : any, personClass : string) : void{
+    public objectOut(event : any, personClass : string) : void {
 
 
         let e : any = event || window.event;
@@ -106,12 +77,15 @@ class Pagination{
                 this.newDiv("person", p, "pers");
             }   
         }
-
+        
+        this.pageOn.classList.remove("pagination_active");
+        this.pageOn = document.getElementById(id);
+        this.pageOn.classList.add("pagination_active");
     }
 }
 
 let pages : Pagination = new Pagination('src/persons.json',5);
 pages.start();
-function page(event){
+function page(event : any) : void{
     pages.objectOut(event, "person");
 }

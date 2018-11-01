@@ -4,8 +4,9 @@
   "description": "First Angular 7 Project",
   "author": "Eugene Popov <metanit.com>",
   "scripts": {
+    "start": "webpack-dev-server",
     "build": "webpack",
-    "start": "webpack --watch"
+    "serv": "static build"
   },
   "dependencies": {
     "@angular/common": "~7.0.0",
@@ -16,6 +17,7 @@
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
     "@types/es6-promise": "^3.3.0",
+    "commonjs": "0.0.1",
     "core-js": "^2.5.7",
     "http-server": "^0.11.1",
     "rxjs": "^6.3.3",
@@ -31,6 +33,6 @@
     "uglifyjs-webpack-plugin": "^2.0.0",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-dev-server": "^3.1.10"
   }
 }
