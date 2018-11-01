@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -6,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 class Pagination {
     constructor(path, onPage) {
         this.path = path;
@@ -74,4 +76,34 @@ pages.start();
 function page(event) {
     pages.objectOut(event, "person");
 }
+let ar = [1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0];
+let count = [];
+let first;
+let again = true;
+for (let i = 0; i < ar.length; i++) {
+    console.log(count + " " + i + " " + ar[i]);
+    if (ar[i] >= 1) {
+        if (!again) {
+            if (i < (ar.length - 1) && ar[i + 1] == 1) {
+                count[count.length - 1]++;
+            }
+            else if (i < (ar.length - 1) && ar[i + 1] != 1) {
+                count[count.length - 1]++;
+                again = true;
+            }
+        }
+        if (again) {
+            count.push(0);
+            if (i < (ar.length - 1) && ar[i + 1] == 1) {
+                count[count.length - 1]++;
+            }
+            else if (i < (ar.length - 1) && ar[i + 1] != 1) {
+                again = true;
+            }
+            again = false;
+        }
+    }
+}
+let max = count.sort()[count.length];
+console.log(count);
 //# sourceMappingURL=index.js.map

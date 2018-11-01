@@ -1,3 +1,5 @@
+import { equal } from "assert";
+
 class Pagination{
     private pageCount: number;
     
@@ -82,6 +84,9 @@ class Pagination{
         this.pageOn = document.getElementById(id);
         this.pageOn.classList.add("pagination_active");
     }
+
+    
+
 }
 
 let pages : Pagination = new Pagination('src/persons.json',5);
@@ -89,3 +94,42 @@ pages.start();
 function page(event : any) : void{
     pages.objectOut(event, "person");
 }
+
+let ar : number[] = [1,0,1,0,1,1,0,1,1,1,0,1,0,1,1,0];
+
+let count : number[] =[]; 
+
+let first : number;
+let again : boolean = true;
+
+for(let i = 0; i < ar.length; i++){
+    console.log(count + " " + i + " " + ar[i]);
+    if(ar[i] >= 1){
+        if(!again){
+            if(i<( ar.length - 1) && ar[i+1] == 1){
+                count[count.length-1] ++;
+            }
+            else if( i<( ar.length-1) && ar[i+1] != 1){
+                count[count.length-1] ++;
+                again = true;
+            }
+
+        }
+        if(again){
+            count.push(0);
+            if(i<( ar.length - 1) && ar[i+1] == 1){
+                count[count.length-1] ++;
+            }
+            else if( i<( ar.length - 1) && ar[i+1] != 1){
+                again = true;
+            }
+            again = false;
+        }
+    }
+    
+
+}
+
+let max = count.sort()[count.length];
+
+console.log(count);
